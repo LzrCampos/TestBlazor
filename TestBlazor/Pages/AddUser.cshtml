@@ -1,0 +1,33 @@
+@page "/addUsers"
+@inject HttpClient Http
+@using Microsoft.AspNetCore.Blazor.Browser.Interop
+
+<h1>Add - Users</h1>
+
+<div>
+    <input id="FirstName" placeholder="Name" bind="@user.FirstName"/>
+    <br/>
+    <input id="LastName" placeholder="Last Name" bind="@user.LastName"/>
+    <br/>
+    <input id="Age" placeholder="Age" bind="@user.Age"/>
+    <br/>
+</div>
+<div>
+    <button class="btn btn-info" id="btnAdd" onclick="@addUser">Add</button>
+</div>
+
+@functions {
+    User user = new User();
+
+    protected async Task addUser(){
+        await Http.SendJsonAsync(HttpMethod.Post, "https://lzrtestapi.azurewebsites.net/api/user", user);
+    }
+    
+
+    class User
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public int Age { get; set; }
+    }
+}
